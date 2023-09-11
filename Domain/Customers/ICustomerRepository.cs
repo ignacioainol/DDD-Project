@@ -2,6 +2,6 @@ namespace Domain.Customers;
 
 public interface ICustomerRepository
 {
-    Task<Customers?> GetByIdAsync(CustomerId id);
-    Task Add(Customers customer)
+    Task<Customer?> GetByIdAsync(CustomerId id);
+    Task Add(Customer customer);
 }
