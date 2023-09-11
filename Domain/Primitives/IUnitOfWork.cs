@@ -1,4 +1,4 @@
-namespace DOmain.Primitives;
+namespace Domain.Primitives;
 
 public interface IUnitOfWork
 {

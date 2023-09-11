@@ -1,6 +1,6 @@
 using Domain.Customers;
 using Domain.ValueObjects;
-using DOmain.Primitives;
+using Domain.Primitives;
 using MediatR;
 
 namespace Application.Customers.Create;
