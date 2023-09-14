@@ -1,6 +1,9 @@
+using System.Diagnostics;
+using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Web.API.Common.Http;
 
 namespace Web.API.Common.Errors;
 
@@ -46,7 +49,22 @@ public class SystemProblemDetailsFactory : ProblemDetailsFactory
 
         if (_options.ClientErrorMapping.TryGetValue(statusCode, out var clientErrorData))
         {
+            problemDetails.Title ??= clientErrorData.Title;
+            problemDetails.Type ??= clientErrorData.Link;
+        }
 
+        var traceId = Activity.Current?.Id ?? httpContext.TraceIdentifier;
+
+        if (traceId != null)
+        {
+            problemDetails.Extensions["traceId"] = traceId;
+        }
+
+        var errors = httpContext?.Items[HttpContextItemKeys.Errors] as List<Error>;
+
+        if (errors is not null)
+        {
+            problemDetails.Extensions.Add("errorCodes",);
         }
     }
 }
