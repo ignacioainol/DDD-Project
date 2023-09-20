@@ -5,6 +5,7 @@ using Web.API.Common.Http;
 
 namespace Web.API.Controllers;
 
+[ApiController]
 public class ApiController : ControllerBase
 {
     protected IActionResult Problem(List<Error> errors)
@@ -19,7 +20,7 @@ public class ApiController : ControllerBase
             return ValidationProblem(errors);
         }
 
-        HttpContext.Items(HttpContextItemKeys.Errors) = errors;
+        HttpContext.Items[HttpContextItemKeys.Errors] = errors;
 
         return Problem(errors[0]);
     }
@@ -35,7 +36,7 @@ public class ApiController : ControllerBase
 
         };
 
-        return Problem(statusCode: statusCode, title: error.Description)
+        return Problem(statusCode: statusCode, title: error.Description);
     }
 
     private IActionResult ValidationProblem(List<Error> errors)
