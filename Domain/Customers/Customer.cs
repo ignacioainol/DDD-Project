@@ -9,6 +9,7 @@ public sealed class Customer : AggregateRoot
     {
         Id = id;
         Name = name;
+        LastName = lastName;
         Email = email;
         PhoneNumber = phoneNumber;
         Address = address;

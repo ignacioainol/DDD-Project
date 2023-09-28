@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Web.API.Controllers;
 
+[Route("customers")]
 public class Customers : ApiController
 {
 

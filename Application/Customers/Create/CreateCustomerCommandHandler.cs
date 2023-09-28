@@ -48,6 +48,11 @@ internal sealed class CreateCustomerCommandHandler : IRequestHandler<CreateCusto
         }
         catch (Exception ex)
         {
+
+            if (ex.InnerException != null)
+            {
+                Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+            }
             return Error.Validation("CreateCustomer.Failure", ex.Message);
         }
     }
