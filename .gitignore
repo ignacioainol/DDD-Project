@@ -1,2 +1,4 @@
 **/bin/
 **/obj/
+Web.API/_appsettings.Development.json
+Web.API/appsettings.Development.json
