@@ -23,7 +23,7 @@ internal sealed class CreateCustomerCommandHandler : IRequestHandler<CreateCusto
         {
             if (PhoneNumber.Create(command.PhoneNumber) is not PhoneNumber phoneNumber)
             {
-                return Error.Validation("Customer.PhoneNumber", "PhoneNumber has not valid format");
+                return Error.Validation("Customer.PhoneNumber", "Phone Number has not valid format");
             }
 
             if (Address.Create(command.Country, command.Line1, command.Line2, command.City, command.State, command.ZipCode) is not Address address)
