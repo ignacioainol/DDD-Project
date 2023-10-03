@@ -19,41 +19,30 @@ internal sealed class CreateCustomerCommandHandler : IRequestHandler<CreateCusto
 
     public async Task<ErrorOr<Unit>> Handle(CreateCustomerCommand command, CancellationToken cancellationToken)
     {
-        try
+
+        if (PhoneNumber.Create(command.PhoneNumber) is not PhoneNumber phoneNumber)
         {
-            if (PhoneNumber.Create(command.PhoneNumber) is not PhoneNumber phoneNumber)
-            {
-                return Error.Validation("Customer.PhoneNumber", "Phone Number has not valid format");
-            }
-
-            if (Address.Create(command.Country, command.Line1, command.Line2, command.City, command.State, command.ZipCode) is not Address address)
-            {
-                return Error.Validation("Customer.Address", "Addreshas not valid");
-            }
-
-            var customer = new Customer(
-                new CustomerId(Guid.NewGuid()),
-                command.Name,
-                command.LastName,
-                command.Email,
-                phoneNumber,
-                address,
-                true
-            );
-
-            await _customerRepository.Add(customer);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            return Unit.Value;
+            return Error.Validation("Customer.PhoneNumber", "Phone Number has not valid format");
         }
-        catch (Exception ex)
+
+        if (Address.Create(command.Country, command.Line1, command.Line2, command.City, command.State, command.ZipCode) is not Address address)
         {
-
-            if (ex.InnerException != null)
-            {
-                Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
-            }
-            return Error.Validation("CreateCustomer.Failure", ex.Message);
+            return Error.Validation("Customer.Address", "Addreshas not valid");
         }
+
+        var customer = new Customer(
+            new CustomerId(Guid.NewGuid()),
+            command.Name,
+            command.LastName,
+            command.Email,
+            phoneNumber,
+            address,
+            true
+        );
+
+        await _customerRepository.Add(customer);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Unit.Value;
     }
 }
